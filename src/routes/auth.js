@@ -1,7 +1,7 @@
 const express=require('express');
 const bcrypt=require('bcryptjs');
 const jwt=require('jsonwebtoken');
-const {pool}=require('../app.js');
+const {pool}=require('../app');
 
 
 const router=express.Router();
@@ -10,10 +10,14 @@ const router=express.Router();
 // Register User
 router.post('/register',async(req,res)=>{
     const {name,email,password,role}=req.body;
+    console.log(name);
+    console.log(email);
+    console.log(password);
+    console.log(role);
     try {
         const hashPassword=await bcrypt.hash(password,10);
         const result=await pool.query(
-            'Insert into users (name,email,password,role) values ($1,$2,$3,$4) returning id',[name,email,hashPassword,role]
+            'insert into users (name,email,password,role) values ($1,$2,$3,$4) returning id',[name,email,hashPassword,role]
         );
 
         res.status(201).json({userId:result.rows[0].id});
