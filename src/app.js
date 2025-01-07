@@ -2,6 +2,11 @@ const dotenv=require('dotenv');
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+
+const http=require('http');
+const socketIo=require('socket.io');
+
+
 const {Pool} = require('pg');
 
 // const productRoutes=require('./routes/products.js');
@@ -15,6 +20,29 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
+// Wrap the express app with HTTP Server
+const server=http.createServer(app);
+
+// Initialize Socket.io
+const io=socketIo(server,{
+    cors:{
+        origin:'*',
+        methods:['GET','POST'],
+    },
+});
+
+// Store Active Socket Connection
+io.on('connection',(socket)=>{
+    console.log('A user connected at web socket: ',socket.id);
+
+    socket.on('disconnect',()=>{
+        console.log('A user disconnected at web socket: ',socket.io);
+    });
+});
+
+// Expose the io instance globally
+app.set('io',io);
 
 // Database Connection
 const pool = new Pool({
@@ -35,7 +63,7 @@ app.get('/',(req,res)=>{
 
 // Start Server
 const PORT=process.env.PORT||5000;
-app.listen(PORT,()=>{
+server.listen(PORT,()=>{
     console.log(`Server is running on port ${PORT}`);
     console.log("Happing Coding");
 })

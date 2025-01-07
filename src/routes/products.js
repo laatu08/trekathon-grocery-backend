@@ -54,7 +54,14 @@ router.put('/:id',async(req,res)=>{
             return res.status(404).json({ error: 'Product not found or not authorized' });
         }
 
-        res.json({productId:result.rows[0].id});
+        // Emit real time price update event
+        const updatedProduct=result.rows[0];
+        const io=req.app.get('io');
+        io.emit('price_updated',updatedProduct);
+
+        // res.json({productId:result.rows[0].id});
+        res.json(updatedProduct);
+        
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
