@@ -37,7 +37,7 @@ io.on('connection',(socket)=>{
     console.log('A user connected at web socket: ',socket.id);
 
     socket.on('disconnect',()=>{
-        console.log('A user disconnected at web socket: ',socket.io);
+        console.log('A user disconnected at web socket: ',socket.id); //small typo here in commit 3
     });
 });
 
@@ -73,8 +73,13 @@ module.exports = {pool};
 
 const productRoutes=require('./routes/products.js');
 const authRoutes=require('./routes/auth.js');
+const paymentRoutes=require('./routes/payments.js');
+const transactionRoutes=require('./routes/transactions.js');
 
 app.use('/auth',authRoutes);
 
-
 app.use('/products',productRoutes);
+
+app.use('/payments',paymentRoutes);
+
+app.use('/transactions',transactionRoutes);
