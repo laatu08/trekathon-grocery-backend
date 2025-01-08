@@ -7,7 +7,18 @@ const VendorDashboard = () => {
     useEffect(()=>{
         const fetchProducts=async()=>{
             try {
-                const response = await axios.get('http://localhost:5000/products/vendor');
+                const token=localStorage.getItem('token');
+
+                if(!token){
+                    setError('User not authenticated. Please log in.');
+                    return;
+                }
+
+                const response = await axios.get('http://localhost:5000/products/vendor',{
+                    headers:{
+                        authorization:`Bearer ${token}`,
+                    },
+                });
                 setProducts(response.data);
             } catch (error) {
                 console.log('Error fetching vendor product: ',error);
