@@ -68,4 +68,20 @@ router.put('/:id',async(req,res)=>{
 })
 
 
+// fetch product for a specific vendor
+router.get('/vendor',async(req,res)=>{
+    const vendor_id=req.user.id
+
+    try {
+        const result=await pool.query(
+            'select * from products where vendor_id=$1',[vendor_id]
+        );
+
+        res.json(result.rows);
+    } catch (error) {
+        console.error('Error fetching vendor products:', error.message);
+        res.status(500).json({ error: 'Failed to fetch vendor products.' });
+    }
+})
+
 module.exports = router;
