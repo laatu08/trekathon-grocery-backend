@@ -87,12 +87,12 @@ router.get('/vendor',async(req,res)=>{
 
 // Search route
 router.get('/search',async(req,res)=>{
-    const {name,category}=req.query;
+    const {name,category,minPrice,maxPrice,sortBy}=req.query;
 
     try {
-        const query = `SELECT * FROM products WHERE (LOWER(name) LIKE LOWER($1)) AND  (LOWER(category) LIKE LOWER($2))`;
+        const query = `SELECT * FROM products WHERE (LOWER(name) LIKE LOWER($1)) AND  (LOWER(category) LIKE LOWER($2)) AND (price>=$3) AND (price<=$4) ORDER BY CASE WHEN $5='price_asc' THEN price END ASC, CASE WHEN $5='price_desc' THEN price END DESC`;
 
-        const result = await pool.query(query, [`%${name || ''}%`,`%${category || ''}%`]);
+        const result = await pool.query(query, [`%${name || ''}%`,`%${category || ''}%`,minPrice||null,maxPrice||null,sortBy||null]);
 
         res.json(result.rows);
     } 
