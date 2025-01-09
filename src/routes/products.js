@@ -84,4 +84,21 @@ router.get('/vendor',async(req,res)=>{
     }
 })
 
+
+// Search route
+router.get('/search',async(req,res)=>{
+    const {name,category}=req.query;
+
+    try {
+        const query = `SELECT * FROM products WHERE (LOWER(name) LIKE LOWER($1)) AND  (LOWER(category) LIKE LOWER($2))`;
+
+        const result = await pool.query(query, [`%${name || ''}%`,`%${category || ''}%`]);
+
+        res.json(result.rows);
+    } 
+    catch (error) {
+        console.error('Error searching products:', error.message);
+        res.status(500).json({ error: 'Failed to search products.' }); 
+    }
+})
 module.exports = router;
