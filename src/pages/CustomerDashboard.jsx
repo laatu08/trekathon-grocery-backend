@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import axios from 'axios';
+import SearchBar from '../components/SearchBar';
 
 const CustomerDashboard = () => {
     const [products,setProducts]=useState([]);
@@ -33,7 +34,7 @@ const CustomerDashboard = () => {
   return (
     <div>
         <h1>Customer Dashboard</h1>
-
+        <SearchBar setProducts={setProducts}></SearchBar>
         <div>
             {
                 products.map((product)=>(
