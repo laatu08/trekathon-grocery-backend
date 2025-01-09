@@ -4,6 +4,9 @@ import axios from 'axios';
 const SearchBar = ({setProducts}) => {
     const [query,setQuery]=useState('');
     const [category,setCategory]=useState('');
+    const [minPrice,setMinPrice]=useState('');
+    const [maxPrice,setMaxPrice]=useState('');
+    const [sortBy,setSortBy]=useState('');
 
     const handleSearch=async()=>{
         try {
@@ -14,7 +17,7 @@ const SearchBar = ({setProducts}) => {
                 return;
             }
 
-            const response=await axios.get(`http://localhost:5000/products/search?name=${query}&category=${category}`,{
+            const response=await axios.get(`http://localhost:5000/products/search?name=${query}&category=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}&sortBy=${sortBy}`,{
                     headers:{
                         authorization:`Bearer ${token}`,
                     },
@@ -38,6 +41,16 @@ const SearchBar = ({setProducts}) => {
         <option value="groceries">Groceries</option>
         <option value="vegetables">Vegetables</option>
         <option value="fruits">Fruits</option>
+      </select>
+
+      <input type="number" value={minPrice} onChange={(e)=>{setMinPrice(e.target.value)}} placeholder="Min Price" />
+
+      <input type="number" value={maxPrice} onChange={(e)=>{setMaxPrice(e.target.value)}} placeholder="Max Price" />
+
+      <select name="" value={sortBy} id="" onChange={(e)=>{setSortBy(e.target.value)}}>
+        <option value="">Sort by</option>
+        <option value="price_asc">Price: Low to High</option>
+        <option value="price_desc">Price: High to Low</option>
       </select>
 
       <button onClick={handleSearch}>Search</button>
