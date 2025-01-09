@@ -7,6 +7,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Login from './pages/Login';
+import Cart from './components/Cart';
 
 const App=()=>{
   return (
@@ -16,9 +17,12 @@ const App=()=>{
       <Routes>
         <Route path="/" element={<Home></Home>}></Route>
         <Route path="/login" element={<Login></Login>}></Route>
+
         <Route path="/customer" element={<CustomerDashboard></CustomerDashboard>}></Route>
         <Route path="/vendor" element={<VendorDashboard></VendorDashboard>}></Route>
         <Route path="/admin" element={<AdminDashboard></AdminDashboard>}></Route>
+
+        <Route path='/cart' element={<Cart></Cart>}></Route>
       </Routes>
 
       <Footer></Footer>

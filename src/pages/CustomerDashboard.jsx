@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react'
 import axios from 'axios';
 import SearchBar from '../components/SearchBar';
+import ProductCard from '../components/ProductCard';
 
 const CustomerDashboard = () => {
     const [products,setProducts]=useState([]);
@@ -38,12 +39,7 @@ const CustomerDashboard = () => {
         <div>
             {
                 products.map((product)=>(
-                    <div key={product.id} style={{border:'2px solid #ccc',padding:'10px',margin:'10px'}}>
-                        <h2>{product.name}</h2>
-                        <p>Price: Rs{product.price}</p>
-                        <p>Stock: {product.stock}</p>
-                        <button>Add to Cart</button>
-                    </div>
+                    <ProductCard key={product.id} product={product}></ProductCard>
                 ))
             }
         </div>
