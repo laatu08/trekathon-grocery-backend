@@ -55,9 +55,53 @@ export const CartProvider=({children})=>{
         }
     }
 
+    const updateCartItem=async(cartId,quantity)=>{
+        try {
+            const token=localStorage.getItem('token');
+    
+            if(!token){
+                setError('User not authenticated. Please log in.');
+                return;
+            }
+    
+            const response=await axios.put(`http://localhost:5000/cart/${cartId}`,{quantity},{
+                headers:{
+                    authorization:`Bearer ${token}`,
+                },
+            });
+
+            fetchCart();
+        } catch (error) {
+            console.error('Error updating cart item:', error);
+        }
+    }
+
+
+    const deleteCartItem=async(cartId)=>{
+        try {
+            const token=localStorage.getItem('token');
+    
+            if(!token){
+                setError('User not authenticated. Please log in.');
+                return;
+            }
+    
+            const response=await axios.delete(`http://localhost:5000/cart/${cartId}`,{
+                headers:{
+                    authorization:`Bearer ${token}`,
+                },
+            });
+
+            fetchCart();
+        } catch (error) {
+            console.error('Error deleting cart item:', error);
+        }
+    }
+
+
 
     return (
-        <CartContext.Provider value={{cart,fetchCart,addToCart}}>
+        <CartContext.Provider value={{cart,fetchCart,addToCart,updateCartItem,deleteCartItem}}>
             {children}
         </CartContext.Provider>
     );
