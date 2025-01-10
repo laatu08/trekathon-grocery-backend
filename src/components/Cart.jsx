@@ -1,5 +1,6 @@
 import react,{useEffect} from 'react';
 import { useCart } from '../context/CartContext';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
     const {cart,fetchCart,updateCartItem,deleteCartItem}=useCart();
@@ -24,6 +25,11 @@ const Cart = () => {
       deleteCartItem(cartId);
     }
 
+    const navigate = useNavigate();
+    const handleCheckout = () => {
+      navigate('/checkout');
+    };
+
   return (
     <div>
       <h2>Your Cart</h2>
@@ -39,6 +45,7 @@ const Cart = () => {
             <button onClick={()=>handleDeleteItem(item.id)}>Remove Item</button>
         </div>
       ))}
+      <button onClick={handleCheckout}>Proceed to Checkout</button>
     </div>
   )
 }
