@@ -76,6 +76,7 @@ const authRoutes=require('./routes/auth.js');
 const paymentRoutes=require('./routes/payments.js');
 const transactionRoutes=require('./routes/transactions.js');
 const cartRoutes=require('./routes/cart.js');
+const paypalRoutes=require('./routes/paypal.js')
 
 app.use('/auth',authRoutes);
 
@@ -86,3 +87,5 @@ app.use('/payments',paymentRoutes);
 app.use('/transactions',transactionRoutes);
 
 app.use('/cart',cartRoutes);
+
+app.use('/paypal',paypalRoutes);
